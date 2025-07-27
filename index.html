@@ -4,86 +4,25 @@
   <meta charset="UTF-8">
   <title>📡 الإذاعة التلفزيونية العالمية</title>
   <style>
-    body {
-      background: #000;
-      color: #f5f5f5;
-      font-family: Arial, sans-serif;
-      text-align: center;
-      padding: 20px;
-    }
-
-    h1 {
-      font-size: 32px;
-      background: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      margin-bottom: 30px;
-    }
-
-    .section-title {
-      font-size: 24px;
-      margin-top: 40px;
-      color: #FFD700;
-    }
-
-    .channel-block {
-      margin: 20px auto;
-      max-width: 420px;
-      border: 2px solid #00BFFF;
-      border-radius: 12px;
-      padding: 12px;
-    }
-
-    .channel-block video {
-      width: 100%;
-      height: auto;
-      border-radius: 6px;
-    }
-
-    .station-title {
-      font-size: 20px;
-      margin-bottom: 8px;
-      color: #00BFFF;
-    }
-
-    /* أيقونة التلفاز */
-    .floating-tv {
-      position: fixed;
-      top: 15px;
-      left: 15px;
-      display: flex;
-      align-items: center;
-      animation: float 2s infinite ease-in-out;
-      z-index: 999;
-    }
-
-    .floating-tv span {
-      font-size: 28px;
-      margin-right: 8px;
-    }
-
-    .floating-tv .label {
-      font-size: 20px;
-      color: #ffffff;
-    }
-
-    @keyframes float {
-      0% { transform: translateY(0); }
-      50% { transform: translateY(-8px); }
-      100% { transform: translateY(0); }
-    }
+    body { background: #000; color: #f5f5f5; font-family: Arial; text-align: center; padding: 20px; }
+    h1 { font-size: 32px; background: linear-gradient(to right, red,orange,yellow,green,blue,indigo,violet);
+         -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom:30px; }
+    .section-title { font-size:24px; margin-top:40px; color:#FFD700; }
+    .channel-block { margin:20px auto; max-width:420px; border:2px solid #00BFFF; border-radius:12px; padding:12px; }
+    .channel-block video { width:100%; height:auto; border-radius:6px; }
+    .station-title { font-size:20px; margin-bottom:8px; color:#00BFFF; }
+    .floating-tv { position:fixed; top:15px; left:15px; display:flex; align-items:center;
+                   animation:float 2s infinite ease-in-out; z-index:999; }
+    .floating-tv span { font-size:28px; margin-right:8px; }
+    .floating-tv .label { font-size:20px; color:#fff; }
+    @keyframes float { 0%{transform:translateY(0);}50%{transform:translateY(-8px);}100%{transform:translateY(0);} }
   </style>
 </head>
 <body>
-  <!-- أيقونة التلفاز -->
-  <div class="floating-tv">
-    <span>📺</span>
-    <div class="label">تلفاز</div>
-  </div>
-
+  <div class="floating-tv"><span>📺</span><div class="label">تلفاز</div></div>
   <h1>📡 الإذاعة التلفزيونية العالمية</h1>
 
-  <div id="sports"><div class="section-title">🏟️ إذاعات رياضية</div></div>
+  <div id="sports"><div class="section-title">🏟️ إذااعات رياضية</div></div>
   <div id="series"><div class="section-title">🎭 إذاعات مسلسلات عربية</div></div>
   <div id="news"><div class="section-title">📢 إذاعات إخبارية</div></div>
 
@@ -94,28 +33,97 @@
       news:   'https://iptv-org.github.io/iptv/categories/news.m3u'
     };
 
-    function loadCategory(id, url) {
-      fetch(url)
-        .then(res => res.text())
-        .then(text => {
-          const lines = text.split('\n');
-          let count = 0;
-          for (let i = 0; i < lines.length && count < 5; i++) {
-            if (lines[i].startsWith('#EXTINF')) {
-              const name = lines[i].split(',')[1] || 'قناة عربية';
-              const stream = lines[i + 1];
-              const div = document.createElement('div');
-              div.className = 'channel-block';
-              div.innerHTML = `<div class="station-title">${name}</div>
-                               <video src="${stream}" controls muted></video>`;
-              document.getElementById(id).appendChild(div);
-              count++;
-            }
+    async function loadCategory(id, url) {
+      try {
+        const res = await fetch(url);
+        const text = await res.text();
+        const lines = text.split('\n');
+        const container = document.getElementById(id);
+        let count = 0;
+
+        // قناة TNT Sports مضافة في أول صنف الرياضة
+        if (id === 'sports') {
+          const tnt = document.createElement('div');
+          tnt.className = 'channel-block';
+          tnt.innerHTML = `<div class="station-title">TNT Sports</div>
+                           <video src="https://edge-sg.rllcdn.com/1674527a028149ce92fe56f9e3bc9b76/index.m3u8" controls muted></video>`;
+          container.appendChild(tnt);
+        }
+
+        for (let i = 0; i < lines.length && count < 5; i++) {
+          if (lines[i].startsWith('#EXTINF')) {
+            const name = lines[i].split(',')[1] || 'قناة عربية';
+            const stream = lines[i+1];
+            const div = document.createElement('div');
+            div.className = 'channel-block';
+            div.innerHTML = `<div class="station-title">${name}</div>
+                             <video src="${stream}" controls muted></video>`;
+            container.appendChild(div);
+            count++;
           }
-        })
-        .catch(() => {
-          document.getElementById(id).innerHTML += '<div>خطأ في التحميل</div>';
-        });
+        }
+
+        // قنوات إضافية لكل صنف:
+
+        if (id === 'sports') {
+          const extraChannels = [
+            {
+              name: 'LaLiga TV (إسبانيا)',
+              url: 'https://iptv-org.github.io/channels/es/LaLigaTV/SD/index.m3u8'
+            },
+            {
+              name: 'beIN Sports News',
+              url: 'https://iptv-org.github.io/channels/ar/beIN-Sports-News/index.m3u8'
+            },
+            {
+              name: 'Sky Sports News',
+              url: 'https://iptv-org.github.io/channels/gb/Sky-Sports-News/index.m3u8'
+            }
+          ];
+          extraChannels.forEach(ch => {
+            const div = document.createElement('div');
+            div.className = 'channel-block';
+            div.innerHTML = `<div class="station-title">${ch.name}</div>
+                             <video src="${ch.url}" controls muted></video>`;
+            container.appendChild(div);
+          });
+        }
+
+        if (id === 'series') {
+          const moroccanSeries = [
+            {
+              name: 'الأولى المغربية (مسلسلات)',
+              url: 'https://cdnamd-hls-globecast.akamaized.net/live/ramdisk/almaghribia/hls_snrt/almaghribia.m3u8'
+            }
+          ];
+          moroccanSeries.forEach(ch => {
+            const div = document.createElement('div');
+            div.className = 'channel-block';
+            div.innerHTML = `<div class="station-title">${ch.name}</div>
+                             <video src="${ch.url}" controls muted></video>`;
+            container.appendChild(div);
+          });
+        }
+
+        if (id === 'news') {
+          const moroccanNews = [
+            {
+              name: 'قناة ميدي 1 تيفي - المغرب',
+              url: 'https://cdnamd-hls-globecast.akamaized.net/live/ramdisk/medi1tvinter/hls_snrt/medi1tvinter.m3u8'
+            }
+          ];
+          moroccanNews.forEach(ch => {
+            const div = document.createElement('div');
+            div.className = 'channel-block';
+            div.innerHTML = `<div class="station-title">${ch.name}</div>
+                             <video src="${ch.url}" controls muted></video>`;
+            container.appendChild(div);
+          });
+        }
+
+      } catch {
+        document.getElementById(id).innerHTML += '<div>⚠️ خطأ في التحميل</div>';
+      }
     }
 
     loadCategory('sports', categories.sports);
