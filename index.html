@@ -1,134 +1,63 @@
 <!DOCTYPE html>
 <html lang="ar">
 <head>
-  <meta charset="UTF-8">
-  <title>📡 الإذاعة التلفزيونية العالمية</title>
+  <meta charset="UTF-8" />
+  <title>📡 البث الرسمي المباشر – أحداث صحية وعلمية</title>
   <style>
     body { background: #000; color: #f5f5f5; font-family: Arial; text-align: center; padding: 20px; }
-    h1 { font-size: 32px; background: linear-gradient(to right, red,orange,yellow,green,blue,indigo,violet);
-         -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom:30px; }
+    h1 { font-size:32px; background:linear-gradient(to right,red,orange,yellow,green,blue,indigo,violet);
+         -webkit-background-clip:text; -webkit-text-fill-color:transparent; margin-bottom:30px; }
     .section-title { font-size:24px; margin-top:40px; color:#FFD700; }
     .channel-block { margin:20px auto; max-width:420px; border:2px solid #00BFFF; border-radius:12px; padding:12px; }
-    .channel-block video { width:100%; height:auto; border-radius:6px; }
+    .channel-block iframe { width:100%; height:240px; border-radius:6px; }
     .station-title { font-size:20px; margin-bottom:8px; color:#00BFFF; }
-    .floating-tv { position:fixed; top:15px; left:15px; display:flex; align-items:center;
-                   animation:float 2s infinite ease-in-out; z-index:999; }
-    .floating-tv span { font-size:28px; margin-right:8px; }
-    .floating-tv .label { font-size:20px; color:#fff; }
-    @keyframes float { 0%{transform:translateY(0);}50%{transform:translateY(-8px);}100%{transform:translateY(0);} }
+    .floating-tv { position:relative; margin:20px auto; width:60px; height:60px;
+      background:#00BFFF; border-radius:50%; display:flex; align-items:center;
+      justify-content:center; animation:float 3s infinite ease-in-out; }
+    .floating-tv span { font-size:28px; color:#fff; font-weight:bold; }
+    @keyframes float { 0%{transform:translateY(0);}50%{transform:translateY(-10px);}100%{transform:translateY(0);} }
+    footer { font-size:14px; margin-top:50px; color:#888; }
   </style>
 </head>
 <body>
-  <div class="floating-tv"><span>📺</span><div class="label">تلفاز</div></div>
-  <h1>📡 الإذاعة التلفزيونية العالمية</h1>
 
-  <div id="sports"><div class="section-title">🏟️ إذااعات رياضية</div></div>
-  <div id="series"><div class="section-title">🎭 إذاعات مسلسلات عربية</div></div>
-  <div id="news"><div class="section-title">📢 إذاعات إخبارية</div></div>
+  <div class="floating-tv"><span>TV</span></div>
+  <h1>📡 البث الرسمي المباشر – تغطية صحية وعلمية عالمية</h1>
 
-  <script>
-    const categories = {
-      sports: 'https://iptv-org.github.io/iptv/categories/sports.m3u',
-      series: 'https://iptv-org.github.io/iptv/categories/series.m3u',
-      news:   'https://iptv-org.github.io/iptv/categories/news.m3u'
-    };
+  <div class="section-title">📢 القنوات المباشرة الرسمية</div>
 
-    async function loadCategory(id, url) {
-      try {
-        const res = await fetch(url);
-        const text = await res.text();
-        const lines = text.split('\n');
-        const container = document.getElementById(id);
-        let count = 0;
+  <!-- قناة France 24 Arabic -->
+  <div class="channel-block">
+    <div class="station-title">France 24 Arabic (فرانس 24 العربية)</div>
+    <iframe src="https://www.youtube.com/embed/Ap-UM1O9RBU" allowfullscreen></iframe>
+  </div>
 
-        // قناة TNT Sports مضافة في أول صنف الرياضة
-        if (id === 'sports') {
-          const tnt = document.createElement('div');
-          tnt.className = 'channel-block';
-          tnt.innerHTML = `<div class="station-title">TNT Sports</div>
-                           <video src="https://edge-sg.rllcdn.com/1674527a028149ce92fe56f9e3bc9b76/index.m3u8" controls muted></video>`;
-          container.appendChild(tnt);
-        }
+  <!-- قناة منظمة الصحة العالمية WHO -->
+  <div class="channel-block">
+    <div class="station-title">WHO Health Live (منظمة الصحة العالمية)</div>
+    <iframe src="https://www.youtube.com/embed/Fp8-4ps3sGE" allowfullscreen></iframe>
+  </div>
 
-        for (let i = 0; i < lines.length && count < 5; i++) {
-          if (lines[i].startsWith('#EXTINF')) {
-            const name = lines[i].split(',')[1] || 'قناة عربية';
-            const stream = lines[i+1];
-            const div = document.createElement('div');
-            div.className = 'channel-block';
-            div.innerHTML = `<div class="station-title">${name}</div>
-                             <video src="${stream}" controls muted></video>`;
-            container.appendChild(div);
-            count++;
-          }
-        }
+  <!-- قناة GlobalQuake لمراقبة الزلازل -->
+  <div class="channel-block">
+    <div class="station-title">GlobalQuake Live (رصد الزلازل عالميًا)</div>
+    <iframe src="https://www.youtube.com/embed/_CQ9OERAHsQ" allowfullscreen></iframe>
+  </div>
 
-        // قنوات إضافية لكل صنف:
+  <!-- قناة AIS Marine Live (متابعة الملاحة البحرية للسفن) -->
+  <div class="channel-block">
+    <div class="station-title">AIS Marine Live (متابعة حركة السفن البحرية)</div>
+    <iframe src="https://www.youtube.com/embed/PYo2Dn2l-Io" allowfullscreen></iframe>
+  </div>
 
-        if (id === 'sports') {
-          const extraChannels = [
-            {
-              name: 'LaLiga TV (إسبانيا)',
-              url: 'https://iptv-org.github.io/channels/es/LaLigaTV/SD/index.m3u8'
-            },
-            {
-              name: 'beIN Sports News',
-              url: 'https://iptv-org.github.io/channels/ar/beIN-Sports-News/index.m3u8'
-            },
-            {
-              name: 'Sky Sports News',
-              url: 'https://iptv-org.github.io/channels/gb/Sky-Sports-News/index.m3u8'
-            }
-          ];
-          extraChannels.forEach(ch => {
-            const div = document.createElement('div');
-            div.className = 'channel-block';
-            div.innerHTML = `<div class="station-title">${ch.name}</div>
-                             <video src="${ch.url}" controls muted></video>`;
-            container.appendChild(div);
-          });
-        }
+  <!-- قناة Flightradar24 Live -->
+  <div class="channel-block">
+    <div class="station-title">Flightradar24 Live (مراقبة حركة الطيران العالمية)</div>
+    <iframe src="https://www.youtube.com/embed/8kOOuU7nGsY" allowfullscreen></iframe>
+  </div>
 
-        if (id === 'series') {
-          const moroccanSeries = [
-            {
-              name: 'الأولى المغربية (مسلسلات)',
-              url: 'https://cdnamd-hls-globecast.akamaized.net/live/ramdisk/almaghribia/hls_snrt/almaghribia.m3u8'
-            }
-          ];
-          moroccanSeries.forEach(ch => {
-            const div = document.createElement('div');
-            div.className = 'channel-block';
-            div.innerHTML = `<div class="station-title">${ch.name}</div>
-                             <video src="${ch.url}" controls muted></video>`;
-            container.appendChild(div);
-          });
-        }
-
-        if (id === 'news') {
-          const moroccanNews = [
-            {
-              name: 'قناة ميدي 1 تيفي - المغرب',
-              url: 'https://cdnamd-hls-globecast.akamaized.net/live/ramdisk/medi1tvinter/hls_snrt/medi1tvinter.m3u8'
-            }
-          ];
-          moroccanNews.forEach(ch => {
-            const div = document.createElement('div');
-            div.className = 'channel-block';
-            div.innerHTML = `<div class="station-title">${ch.name}</div>
-                             <video src="${ch.url}" controls muted></video>`;
-            container.appendChild(div);
-          });
-        }
-
-      } catch {
-        document.getElementById(id).innerHTML += '<div>⚠️ خطأ في التحميل</div>';
-      }
-    }
-
-    loadCategory('sports', categories.sports);
-    loadCategory('series', categories.series);
-    loadCategory('news',   categories.news);
-  </script>
+  <footer>
+    © جميع القنوات المعروضة هي بث مباشر رسمي مأخوذ من مصادر موثوقة مثل France 24، WHO، GlobalQuake، AIS Marine Live، وFlightradar24. لا يُخزن أي بث على هذا الموقع، بل يُظهر المحتوى من المصادر الأصلية فقط.
+  </footer>
 </body>
 </html>
