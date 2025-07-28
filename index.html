@@ -45,7 +45,7 @@
     .responsive-iframe {
       position: relative;
       width: 100%;
-      padding-bottom: 56.25%;
+      padding-bottom: 56.25%; /* 16:9 aspect ratio */
       height: 0;
       overflow: hidden;
       border-radius: 6px;
@@ -92,21 +92,10 @@
     }
 
     @media (max-width: 600px) {
-      h1 {
-        font-size: 24px;
-      }
-
-      .section-title {
-        font-size: 20px;
-      }
-
-      .station-title {
-        font-size: 18px;
-      }
-
-      .channel-block {
-        padding: 10px;
-      }
+      h1 { font-size: 24px; }
+      .section-title { font-size: 20px; }
+      .station-title { font-size: 18px; }
+      .channel-block { padding: 10px; }
     }
   </style>
 </head>
@@ -165,8 +154,29 @@
     </div>
   </div>
 
+  <!-- Google Maps Live -->
+  <div class="channel-block">
+    <div class="station-title">Google Maps Live (خرائط جوجل – البث المباشر)</div>
+    <div class="responsive-iframe">
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d15955.018967003518!2d-0.1276479!3d51.5073219!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sus!4v1680000000000!5m2!1sen!2sus"
+        allowfullscreen
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+      ></iframe>
+    </div>
+  </div>
+
+  <!-- EarthCam Times Square Live -->
+  <div class="channel-block">
+    <div class="station-title">EarthCam – Times Square Live (كاميرا مفتوحة المصدر)</div>
+    <div class="responsive-iframe">
+      <iframe src="https://www.earthcam.com/usa/newyork/timessquare/embed" allowfullscreen></iframe>
+    </div>
+  </div>
+
   <footer>
-    © جميع القنوات المعروضة هي بث مباشر رسمي مأخوذ من مصادر موثوقة مثل France 24، WHO، GlobalQuake، AIS Marine Live، Flightradar24، وNASA. لا يُخزن أي بث على هذا الموقع، بل يُعرض من المصادر الأصلية فقط.
+    © جميع القنوات المعروضة هي بث مباشر رسمي مأخوذ من مصادر موثوقة مثل France 24، WHO، GlobalQuake، AIS Marine Live، Flightradar24، NASA، Google Maps، وEarthCam. لا يُخزن أي بث على هذا الموقع، بل يُعرض من المصادر الأصلية فقط.
   </footer>
 </body>
 </html>
