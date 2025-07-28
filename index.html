@@ -13,12 +13,60 @@
       padding: 20px;
     }
 
-    h1 {
+    .header-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+
+    .floating-tv {
+      width: 70px;
+      height: 70px;
+      background: linear-gradient(45deg, red, orange, yellow, green, blue, indigo, violet);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: float 3s infinite ease-in-out;
+      box-shadow: 0 0 15px rgba(255,255,255,0.4);
+    }
+
+    .floating-tv span {
       font-size: 32px;
-      background: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet);
+      color: #fff;
+    }
+
+    .site-title {
+      font-size: 38px;
+      font-weight: bold;
+      background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      margin-bottom: 30px;
+      animation: rainbowText 6s linear infinite;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0); }
+    }
+
+    @keyframes rainbowText {
+      0% { background-position: 0%; }
+      100% { background-position: 100%; }
+    }
+
+    h1#changing-title {
+      font-size: 26px;
+      margin-bottom: 20px;
+      animation: rainbowText 6s linear infinite;
+      background: linear-gradient(90deg, violet, indigo, blue, green, yellow, orange, red);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-size: 300% auto;
     }
 
     .section-title {
@@ -45,7 +93,7 @@
     .responsive-iframe {
       position: relative;
       width: 100%;
-      padding-bottom: 56.25%; /* 16:9 aspect ratio */
+      padding-bottom: 56.25%;
       height: 0;
       overflow: hidden;
       border-radius: 6px;
@@ -60,31 +108,6 @@
       border: none;
     }
 
-    .floating-tv {
-      position: relative;
-      margin: 20px auto;
-      width: 60px;
-      height: 60px;
-      background: #00BFFF;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      animation: float 3s infinite ease-in-out;
-    }
-
-    .floating-tv span {
-      font-size: 28px;
-      color: #fff;
-      font-weight: bold;
-    }
-
-    @keyframes float {
-      0% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
-      100% { transform: translateY(0); }
-    }
-
     footer {
       font-size: 14px;
       margin-top: 50px;
@@ -92,21 +115,25 @@
     }
 
     @media (max-width: 600px) {
-      h1 { font-size: 24px; }
+      .site-title { font-size: 28px; }
+      h1#changing-title { font-size: 20px; }
       .section-title { font-size: 20px; }
       .station-title { font-size: 18px; }
-      .channel-block { padding: 10px; }
     }
   </style>
 </head>
 <body>
 
-  <div class="floating-tv"><span>TV</span></div>
-  <h1>📡 البث الرسمي المباشر – تغطية صحية وعلمية عالمية</h1>
+  <div class="header-bar">
+    <div class="floating-tv"><span>📡</span></div>
+    <div class="site-title" id="changing-site-name">عين العالم TV</div>
+  </div>
+
+  <h1 id="changing-title">📺 البث الرسمي المباشر – تغطية صحية وعلمية عالمية</h1>
 
   <div class="section-title">📢 القنوات المباشرة الرسمية</div>
 
-  <!-- France 24 Arabic -->
+  <!-- القنوات -->
   <div class="channel-block">
     <div class="station-title">France 24 Arabic (فرانس 24 العربية)</div>
     <div class="responsive-iframe">
@@ -114,7 +141,6 @@
     </div>
   </div>
 
-  <!-- WHO Health Live -->
   <div class="channel-block">
     <div class="station-title">WHO Health Live (منظمة الصحة العالمية)</div>
     <div class="responsive-iframe">
@@ -122,7 +148,6 @@
     </div>
   </div>
 
-  <!-- GlobalQuake -->
   <div class="channel-block">
     <div class="station-title">GlobalQuake Live (رصد الزلازل عالميًا)</div>
     <div class="responsive-iframe">
@@ -130,7 +155,6 @@
     </div>
   </div>
 
-  <!-- AIS Marine -->
   <div class="channel-block">
     <div class="station-title">AIS Marine Live (متابعة حركة السفن البحرية)</div>
     <div class="responsive-iframe">
@@ -138,7 +162,6 @@
     </div>
   </div>
 
-  <!-- Flightradar24 -->
   <div class="channel-block">
     <div class="station-title">Flightradar24 Live (مراقبة حركة الطيران العالمية)</div>
     <div class="responsive-iframe">
@@ -146,7 +169,6 @@
     </div>
   </div>
 
-  <!-- NASA Official Live -->
   <div class="channel-block">
     <div class="station-title">NASA Live – البث المباشر الرسمي من وكالة ناسا</div>
     <div class="responsive-iframe">
@@ -154,12 +176,11 @@
     </div>
   </div>
 
-  <!-- Google Maps Live -->
   <div class="channel-block">
-    <div class="station-title">Google Maps Live (خرائط جوجل – البث المباشر)</div>
+    <div class="station-title">Google Maps – خريطة حية لمتابعة الموقع الجغرافي</div>
     <div class="responsive-iframe">
       <iframe
-        src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d15955.018967003518!2d-0.1276479!3d51.5073219!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sus!4v1680000000000!5m2!1sen!2sus"
+        src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d15955.018967003518!2d-0.1276479!3d51.5073219!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sar!2sus!4v1680000000000!5m2!1sar!2sus"
         allowfullscreen
         loading="lazy"
         referrerpolicy="no-referrer-when-downgrade"
@@ -167,16 +188,41 @@
     </div>
   </div>
 
-  <!-- EarthCam Times Square Live -->
   <div class="channel-block">
-    <div class="station-title">EarthCam – Times Square Live (كاميرا مفتوحة المصدر)</div>
+    <div class="station-title">EarthCam – Times Square (كاميرا مفتوحة المصدر)</div>
     <div class="responsive-iframe">
       <iframe src="https://www.earthcam.com/usa/newyork/timessquare/embed" allowfullscreen></iframe>
     </div>
   </div>
 
   <footer>
-    © جميع القنوات المعروضة هي بث مباشر رسمي مأخوذ من مصادر موثوقة مثل France 24، WHO، GlobalQuake، AIS Marine Live، Flightradar24، NASA، Google Maps، وEarthCam. لا يُخزن أي بث على هذا الموقع، بل يُعرض من المصادر الأصلية فقط.
+    © جميع القنوات المعروضة هي بث مباشر رسمي مأخوذ من مصادر موثوقة مثل France 24، WHO، GlobalQuake، AIS Marine Live، Flightradar24، NASA، Google Maps، وEarthCam. لا يُخزن أي بث على هذا الموقع، بل يُعرض من المصادر الأصلية فقط. كل البثوث مرخصة ومفتوحة للعامة بدون انتهاك قانوني.
   </footer>
+
+  <script>
+    const titleElement = document.getElementById('changing-title');
+    const siteNameElement = document.getElementById('changing-site-name');
+
+    const titles = [
+      '📺 البث الرسمي المباشر – تغطية صحية وعلمية عالمية',
+      '📡 Live Official Streams – Health, Science & Global Updates',
+      '📺 Diffusion en direct officielle – Santé et sciences',
+      '📡 Transmisión oficial en vivo – Salud y ciencia global'
+    ];
+
+    const siteNames = [
+      'عين العالم TV',
+      'Eye of the World TV',
+      'Œil du Monde TV',
+      'Ojo del Mundo TV'
+    ];
+
+    let index = 0;
+    setInterval(() => {
+      index = (index + 1) % titles.length;
+      titleElement.textContent = titles[index];
+      siteNameElement.textContent = siteNames[index];
+    }, 5000);
+  </script>
 </body>
 </html>
